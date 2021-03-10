@@ -26,8 +26,8 @@ import (
 // MemcachedSpec defines the desired state of Memcached
 type MemcachedSpec struct {
 	// +kubebuilder:validation:Minimum=0
-	// Size is the size of the memcached deployment
-	Size int32 `json:"size"`
+	// ReplicaSize is the size of the memcached deployment
+	ReplicaSize int32 `json:"replicaSize"`
 }
 
 // MemcachedStatus defines the observed state of Memcached
@@ -38,6 +38,7 @@ type MemcachedStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 
 // Memcached is the Schema for the memcacheds API
 type Memcached struct {

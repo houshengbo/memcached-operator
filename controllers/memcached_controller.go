@@ -94,7 +94,7 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 	}
 
 	// Ensure the deployment size is the same as the spec
-	size := memcached.Spec.Size
+	size := memcached.Spec.ReplicaSize
 	if *found.Spec.Replicas != size {
 		found.Spec.Replicas = &size
 		err = r.Update(ctx, found)
@@ -135,7 +135,7 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 // deploymentForMemcached returns a memcached Deployment object
 func (r *MemcachedReconciler) deploymentForMemcached(m *cachev1beta1.Memcached) *appsv1.Deployment {
 	ls := labelsForMemcached(m.Name)
-	replicas := m.Spec.Size
+	replicas := m.Spec.ReplicaSize
 
 	dep := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{

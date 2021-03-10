@@ -42,5 +42,10 @@ operator-sdk create api --group cache --version v1beta1 --kind Memcached
 Only create the resource, not the controller, because we will change the existing one.
 The principle is that each controller will only reconcile on one version of the CR.
 
+Add the `+kubebuilder:storageversion` marker to indicate the storage version. We add it into
+Memcached at v1beta1.
 
-
+Create the conversion webhook
+```
+operator-sdk create webhook --conversion --version v1alpha1 --kind Memcached --group cache
+```
