@@ -31,6 +31,20 @@ Create the CR:
 ```
 kubectl apply -f config/samples/cache_v1alpha1_memcached.yaml
 ```
+or
+```
+kubectl apply -f config/samples/cache_v1beta1_memcached.yaml
+```
+
+Delete the CR:
+```
+kubectl delete -f config/samples/cache_v1beta1_memcached.yaml
+```
+
+Remove the operator:
+```
+make undeploy IMG=docker.io/$USER/memcached-operator:v0.0.2
+```
 
 Create the operator with v1beta1 CRD
 The v1beta1 CRD has the same content as v1alpha1 CRD.
