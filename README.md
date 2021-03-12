@@ -19,7 +19,7 @@ Build and push the image:
 
 ```
 export USER=<name>
-make docker-build docker-push IMG=quay.io/$USER/memcached-operator:v0.0.1
+make docker-build docker-push IMG=docker.io/$USER/memcached-operator:v0.0.1
 ```
 
 Deploy the operator
