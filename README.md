@@ -54,24 +54,11 @@ operator-sdk create webhook --conversion --version v1beta1 --kind Memcached --gr
 
 Run this job when you need to migrate the existing CRDs from the v1alpha1 version into v1beta1 version.
 
-We leverage the storage version migration tool available at [Knative Common Packages](https://github.com/knative/pkg).
-
-Go to your $GOPATH, and create a directory called `knative.dev`
-```
-cd $GOPATH
-mkdir knative.dev
-cd knative.dev
-```
-
-Download this repository:
-```
-git clone git@github.com:knative/pkg.git
-```
+Install the tool [`ko`](https://github.com/google/ko) first.
 
 Build the image for the job in the root directory:
 ```
-cd pkg
-ko publish knative.dev/pkg/apiextensions/storageversion/cmd/migrate -B -t 0.0.2
+ko resolve -f config/post-install -B -t 0.0.2
 ```
 
 The image will be published at `docker.io/$USER/migrate:v0.0.2`.
