@@ -45,6 +45,7 @@ type MemcachedReconciler struct {
 // +kubebuilder:rbac:groups=cache.example.com,resources=memcacheds/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=cache.example.com,resources=memcacheds/finalizers,verbs=update
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=core,resources=configmaps,verbs=get;create;update
 // +kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
@@ -121,8 +122,24 @@ func (r *MemcachedReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 
 	// Update status.Nodes if needed
 	if !reflect.DeepEqual(podNames, memcached.Status.Nodes) {
-		memcached.Status.Nodes = podNames
-		err := r.Status().Update(ctx, memcached)
+
+		latest := &cachev1beta1.Memcached{}
+		err := r.Get(ctx, req.NamespacedName, latest)
+		if err != nil {
+			if errors.IsNotFound(err) {
+				// Request object not found, could have been deleted after reconcile request.
+				// Owned objects are automatically garbage collected. For additional cleanup logic use finalizers.
+				// Return and don't requeue
+				log.Info("Memcached resource not found. Ignoring since object must be deleted")
+				return ctrl.Result{}, nil
+			}
+			// Error reading the object - requeue the request.
+			log.Error(err, "Failed to get Memcached")
+			return ctrl.Result{}, err
+		}
+
+		latest.Status.Nodes = podNames
+		err = r.Status().Update(ctx, latest)
 		if err != nil {
 			log.Error(err, "Failed to update Memcached status")
 			return ctrl.Result{}, err

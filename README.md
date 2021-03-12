@@ -19,7 +19,7 @@ Build and push the image:
 
 ```
 export USER=<name>
-make docker-build docker-push IMG=quay.io/$USER/memcached-operator:v0.0.1
+make docker-build docker-push IMG=docker.io/$USER/memcached-operator:v0.0.1
 ```
 
 Deploy the operator
@@ -47,5 +47,5 @@ Memcached at v1beta1.
 
 Create the conversion webhook
 ```
-operator-sdk create webhook --conversion --version v1alpha1 --kind Memcached --group cache
+operator-sdk create webhook --conversion --version v1beta1 --kind Memcached --group cache --defaulting --programmatic-validation
 ```

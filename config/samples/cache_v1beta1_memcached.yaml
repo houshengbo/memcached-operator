@@ -3,7 +3,7 @@ kind: Namespace
 metadata:
   name: memcached-sample
 ---
-apiVersion: cache.example.com/v1alpha1
+apiVersion: cache.example.com/v1beta1
 kind: Memcached
 metadata:
   name: memcached-sample
