@@ -17,7 +17,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: migrate
-          #image: docker.io/houshengbo/migrate:0.0.2
-          image: ko://knative.dev/pkg/apiextensions/storageversion/cmd/migrate
+          image: docker.io/houshengbo/migrate:0.0.2
+          #image: ko://github.com/example/memcached-operator/vendor/knative.dev/pkg/apiextensions/storageversion/cmd/migrate
           args:
             - "memcacheds.cache.example.com"
